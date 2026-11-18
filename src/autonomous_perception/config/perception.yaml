@@ -1,0 +1,21 @@
+yolo_detector_node:
+  ros__parameters:
+    model_path: yolov8n.pt
+    confidence_threshold: 0.4
+    device: cpu            # cuda:0 when a GPU is available
+    publish_debug_image: true
+
+lidar_processor_node:
+  ros__parameters:
+    sensor_height: 2.4
+    ground_threshold: 0.3
+    max_range: 40.0
+    cluster_cell_size: 0.5
+    min_cluster_points: 10
+
+radar_processor_node:
+  ros__parameters:
+    mount_x: 2.0
+    mount_z: 1.0
+    min_abs_velocity: 0.5
+    max_altitude: 0.2

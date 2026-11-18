@@ -1,0 +1,8 @@
+kalman_fusion_node:
+  ros__parameters:
+    rate_hz: 20.0
+    lidar_var: 0.2        # LiDAR position measurement variance [m^2]
+    radar_pos_var: 1.0    # radar position measurement variance [m^2]
+    radar_vel_var: 0.5    # radar Doppler variance [(m/s)^2]
+    max_misses: 5         # drop a track after N LiDAR frames without a match
+    min_hits: 3           # publish only tracks confirmed N times

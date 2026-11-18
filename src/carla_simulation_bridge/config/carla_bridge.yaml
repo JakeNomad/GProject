@@ -1,0 +1,16 @@
+carla_bridge_node:
+  ros__parameters:
+    host: localhost
+    port: 2000
+    town: Town03
+    fixed_delta_seconds: 0.05
+    vehicle_filter: vehicle.tesla.model3
+    camera:
+      width: 800
+      height: 600
+      fov: 90.0
+    lidar:
+      range: 50.0
+      channels: 32
+    radar:
+      range: 100.0

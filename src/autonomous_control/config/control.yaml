@@ -1,0 +1,10 @@
+vehicle_controller_node:
+  ros__parameters:
+    rate_hz: 20.0
+    wheelbase: 2.875
+    max_steer_angle: 1.22
+    lookahead_gain: 0.8
+    min_lookahead: 4.0
+    speed_kp: 0.5
+    speed_ki: 0.05
+    speed_kd: 0.02

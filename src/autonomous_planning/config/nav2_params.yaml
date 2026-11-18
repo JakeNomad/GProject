@@ -1,0 +1,64 @@
+# Nav2 is used only for global path planning (planner_server + global costmap).
+# CARLA gives no static occupancy map, so the global costmap is a rolling window
+# fed by the non-ground LiDAR points from autonomous_perception.
+planner_server:
+  ros__parameters:
+    expected_planner_frequency: 1.0
+    planner_plugins: ["GridBased"]
+    GridBased:
+      plugin: "nav2_smac_planner::SmacPlannerHybrid"   # Ackermann-feasible paths
+      motion_model_for_search: "DUBIN"
+      minimum_turning_radius: 5.5
+      tolerance: 1.0
+      allow_unknown: true
+      max_planning_time: 2.0
+      angle_quantization_bins: 72
+
+global_costmap:
+  global_costmap:
+    ros__parameters:
+      global_frame: map
+      robot_base_frame: base_link
+      update_frequency: 5.0
+      publish_frequency: 2.0
+      rolling_window: true
+      width: 120
+      height: 120
+      resolution: 0.25
+      track_unknown_space: true
+      footprint: "[[2.4, 1.0], [2.4, -1.0], [-2.4, -1.0], [-2.4, 1.0]]"
+      plugins: ["obstacle_layer", "inflation_layer"]
+      obstacle_layer:
+        plugin: "nav2_costmap_2d::ObstacleLayer"
+        observation_sources: lidar
+        lidar:
+          topic: /perception/lidar/nonground
+          data_type: "PointCloud2"
+          marking: true
+          clearing: true
+          min_obstacle_height: 0.3
+          max_obstacle_height: 3.0
+          obstacle_max_range: 40.0
+          raytrace_max_range: 45.0
+      inflation_layer:
+        plugin: "nav2_costmap_2d::InflationLayer"
+        inflation_radius: 1.5
+        cost_scaling_factor: 3.0
+
+lifecycle_manager_planning:
+  ros__parameters:
+    autostart: true
+    node_names: ["planner_server"]
+
+behavior_planner_node:
+  ros__parameters:
+    cruise_speed: 8.0
+    corridor_half_width: 1.8
+    safe_time_gap: 2.0
+    min_gap: 5.0
+    ttc_emergency: 1.5
+
+path_planner_node:
+  ros__parameters:
+    planner_id: GridBased
+    replan_period: 1.0
